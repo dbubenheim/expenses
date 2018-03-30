@@ -1,5 +1,6 @@
 package com.clemick.expenses
 
+import com.clemick.expenses.model.Expense
 import com.clemick.expenses.repository.ExpensesRepository
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.web.bind.annotation.GetMapping
@@ -11,7 +12,7 @@ import org.springframework.web.bind.annotation.RestController
 class TestController {
 
     @Autowired
-    lateinit var expensesRepository: ExpensesRepository;
+    lateinit var expensesRepository: ExpensesRepository
 
     @GetMapping
     @RequestMapping("test")
@@ -21,8 +22,8 @@ class TestController {
 
     @GetMapping
     @RequestMapping("expenses")
-    fun getAllExpenses()
+    fun getAllExpenses() : List<Expense>
     {
-
+        return this.expensesRepository.findAll()
     }
 }
