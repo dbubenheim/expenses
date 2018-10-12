@@ -1,0 +1,3 @@
+# expenses
+
+My side project for kotlin, gradle, axon, mongodb, CQRS, Event Sourcing ...
