@@ -1,6 +1,7 @@
 package com.clemick.expenses
 
 import com.fasterxml.jackson.databind.ObjectMapper
+import com.fasterxml.jackson.module.kotlin.registerKotlinModule
 import com.mongodb.MongoClient
 import io.undertow.UndertowOptions
 import org.axonframework.eventsourcing.eventstore.EventStorageEngine
@@ -23,6 +24,7 @@ class ExpensesApplication {
     @Bean
     fun objectMapper() : ObjectMapper {
         return ObjectMapper()
+                .registerKotlinModule()
                 .registerModule(MoneyModule())
     }
 

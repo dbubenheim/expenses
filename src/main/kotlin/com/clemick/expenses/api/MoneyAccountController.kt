@@ -1,14 +1,15 @@
 package com.clemick.expenses.api
 
+import com.clemick.expenses.api.request.CreateMoneyAccountRequest
 import com.clemick.expenses.command.CreateMoneyAccountCommand
 import com.clemick.expenses.command.UpdateMoneyAccountCommand
-import com.clemick.expenses.model.Owner
 import com.clemick.expenses.query.MoneyAccountQuery
 import com.clemick.expenses.view.MoneyAccountView
 import org.axonframework.commandhandling.gateway.CommandGateway
 import org.axonframework.queryhandling.QueryGateway
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
+import org.springframework.http.HttpStatus
 import org.springframework.web.bind.annotation.*
 import java.util.*
 import java.util.concurrent.CompletableFuture
@@ -20,10 +21,11 @@ class MoneyAccountController(
         private val queryGateway: QueryGateway) {
 
     @PostMapping(produces = ["application/json"])
+    @ResponseStatus(HttpStatus.CREATED)
     @ResponseBody
-    fun create(@RequestHeader("owner") owner: Owner, @RequestHeader("name") name: String) : CompletableFuture<String> {
+    fun create(@RequestBody request: CreateMoneyAccountRequest) : CompletableFuture<String> {
         logger.info("create.....")
-        return commandGateway.send(CreateMoneyAccountCommand(UUID.randomUUID().toString(), name, owner))
+        return commandGateway.send<String>(CreateMoneyAccountCommand(UUID.randomUUID().toString(), request.name, request.owner))
     }
 
     @PutMapping("/put/{id}")
