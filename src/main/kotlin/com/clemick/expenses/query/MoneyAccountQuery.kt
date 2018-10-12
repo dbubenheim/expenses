@@ -2,4 +2,4 @@ package com.clemick.expenses.query
 
 import org.axonframework.commandhandling.TargetAggregateIdentifier
 
-data class AccountQuery(@TargetAggregateIdentifier val id: String)
+data class MoneyAccountQuery(@TargetAggregateIdentifier val id: String)

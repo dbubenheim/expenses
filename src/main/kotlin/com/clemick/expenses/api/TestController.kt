@@ -1,6 +1,6 @@
-package com.clemick.expenses
+package com.clemick.expenses.api
 
-import com.clemick.expenses.model.Expense
+import com.clemick.expenses.aggregate.Expense
 import com.clemick.expenses.repository.ExpensesRepository
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.web.bind.annotation.GetMapping

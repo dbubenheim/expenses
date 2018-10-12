@@ -1,6 +1,6 @@
 package com.clemick.expenses.aggregate
 
-import com.clemick.expenses.api.CreateCommand
+import com.clemick.expenses.command.CreateMoneyAccountCommand
 import com.clemick.expenses.event.AccountCreated
 import com.clemick.expenses.model.Owner
 import org.axonframework.commandhandling.CommandHandler
@@ -22,7 +22,7 @@ class Account {
     var name: String? = null
 
     @CommandHandler
-    constructor(command: CreateCommand) {
+    constructor(command: CreateMoneyAccountCommand) {
         logger.info("creating account...")
         AggregateLifecycle.apply(AccountCreated(command.id, command.name, command.owner))
     }

@@ -1,11 +1,11 @@
 package com.clemick.expenses.api
 
-import com.clemick.expenses.aggregate.Account
+import com.clemick.expenses.command.CreateMoneyAccountCommand
+import com.clemick.expenses.command.UpdateMoneyAccountCommand
 import com.clemick.expenses.model.Owner
-import com.clemick.expenses.query.AccountQuery
-import com.clemick.expenses.view.AccountView
+import com.clemick.expenses.query.MoneyAccountQuery
+import com.clemick.expenses.view.MoneyAccountView
 import org.axonframework.commandhandling.gateway.CommandGateway
-import org.axonframework.eventsourcing.eventstore.EventStore
 import org.axonframework.queryhandling.QueryGateway
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
@@ -14,41 +14,33 @@ import java.util.*
 import java.util.concurrent.CompletableFuture
 
 @RestController
-@RequestMapping("expenses/api/v1")
-class ExpensesController(
+@RequestMapping("/account/api/v1")
+class MoneyAccountController(
         private val commandGateway: CommandGateway,
-        private val eventStore: EventStore,
         private val queryGateway: QueryGateway) {
 
     @PostMapping(produces = ["application/json"])
     @ResponseBody
     fun create(@RequestHeader("owner") owner: Owner, @RequestHeader("name") name: String) : CompletableFuture<String> {
         logger.info("create.....")
-        return commandGateway.send(CreateCommand(UUID.randomUUID().toString(), name, owner))
+        return commandGateway.send(CreateMoneyAccountCommand(UUID.randomUUID().toString(), name, owner))
     }
 
     @PutMapping("/put/{id}")
+    @ResponseBody
     fun update(@PathVariable("id") id: String, @RequestBody name: String) {
         logger.info("update.....")
-        commandGateway.send<Unit>(UpdateCommand(id, name))
+        commandGateway.send<Unit>(UpdateMoneyAccountCommand(id, name))
     }
 
     @GetMapping("/{id}")
     @ResponseBody
-    fun get(@PathVariable id : String) : CompletableFuture<AccountView> {
+    fun get(@PathVariable id : String) : CompletableFuture<MoneyAccountView> {
         logger.info("get.....")
-        //return queryGateway.query(AccountQuery(id), Account::class.java)
-        return queryGateway.query(AccountQuery(id), AccountView::class.java)
-        //return eventStore.readEvents(id).asSequence().map { it.payload }.toList()
-    }
-
-    @GetMapping("/wtf")
-    @ResponseBody
-    fun get() : String {
-        return "WTF"
+        return queryGateway.query(MoneyAccountQuery(id), MoneyAccountView::class.java)
     }
 
     companion object {
-        val logger : Logger = LoggerFactory.getLogger(ExpensesController::class.java)
+        val logger : Logger = LoggerFactory.getLogger(MoneyAccountController::class.java)
     }
 }
