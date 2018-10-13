@@ -1,13 +1,5 @@
 package com.clemick.expenses.repository
 
-import com.clemick.expenses.aggregate.Account
-import com.mongodb.client.model.Filters.where
-import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.context.annotation.Profile
-import org.springframework.data.mongodb.core.MongoOperations
-import org.springframework.data.mongodb.core.query.Query.query
-import org.springframework.stereotype.Repository
-
 /*
 @Repository
 @Profile("mongodb")
